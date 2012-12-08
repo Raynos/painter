@@ -9,3 +9,10 @@ canvas {
     margin: 20px;
     border: 1px black solid;
 }
+
+.right {
+    float: right;
+    width: 15%;
+    margin-right: 20px;
+    margin-top: 20px;
+}

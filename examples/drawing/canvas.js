@@ -1,24 +1,47 @@
+var extend = require("xtend")
+    , requestAnimationFrame = window.requestAnimationFrame
+
+    , drag = require("./lib/drag")
+
 module.exports = Canvas
 
 function Canvas() {
     var canvas = document.createElement("canvas")
         , context = canvas.getContext("2d")
         , events = drag(canvas)
+        , memory = {}
+        , width = window.innerWidth * 0.8
+        , height = window.innerHeight * 0.8
 
-    events.on("path", function (p) {
-        renderPath(p)
+    canvas.width = width
+    canvas.height = height
+
+    requestAnimationFrame(render)
+
+    return extend(events, {
+        view: canvas
+        , addPath: addPath
+        , removePath: removePath
     })
 
-    canvas.width = window.outerWidth * 0.6
-    canvas.height = window.outerHeight * 0.6
+    function render() {
+        context.clearRect(0, 0, width, height)
 
-    return {
-        view: canvas
-        , renderPath: renderPath
+        Object.keys(memory).forEach(function (key) {
+            var path = memory[key]
+
+            path.forEach(strokePath)
+        })
+
+        requestAnimationFrame(render)
     }
 
-    function renderPath(path) {
-        path.forEach(strokePath)
+    function addPath(key, path) {
+        memory[key] = path
+    }
+
+    function removePath(key) {
+        delete memory[key]
     }
 
     function strokePath(tuple) {
