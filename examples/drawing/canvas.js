@@ -1,6 +1,9 @@
 var extend = require("xtend")
-    , requestAnimationFrame = window.requestAnimationFrame
-
+    , requestAnimationFrame = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame
     , drag = require("./lib/drag")
 
 module.exports = Canvas
@@ -49,7 +52,7 @@ function Canvas() {
             , end = tuple[1]
 
         context.beginPath()
-        context.setStrokeColor("black")
+        context.stokeStyle = "black"
         context.moveTo(start.x, start.y)
         context.lineTo(end.x, end.y)
         context.stroke()
