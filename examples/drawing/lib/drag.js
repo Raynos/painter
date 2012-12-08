@@ -17,8 +17,8 @@ function drag(elem) {
     events.on("mousedown", function (ev) {
         path = []
         start = {
-            x: ev.offsetX
-            , y: ev.offsetY
+            x: ev.clientX - elem.offsetLeft
+            , y: ev.clientY - elem.offsetTop
         }
     })
 
@@ -28,8 +28,8 @@ function drag(elem) {
         }
 
         var point = {
-            x: ev.offsetX
-            , y: ev.offsetY
+            x: ev.clientX - elem.offsetLeft
+            , y: ev.clientY - elem.offsetTop
         }
 
         path.push([start, point])
