@@ -8,6 +8,14 @@ var extend = require("xtend")
 
 module.exports = Canvas
 
+/* Canvas widget
+
+    - has a render loop based on requestAnimationFrame that
+        resets canvas and renders all paths it currently thinks
+        exist.
+    - has methods to add and remove paths to it's memory
+
+*/
 function Canvas() {
     var canvas = document.createElement("canvas")
         , context = canvas.getContext("2d")

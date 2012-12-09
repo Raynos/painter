@@ -13,10 +13,14 @@ canvas {
 .chat {
     margin-top: 20px;
     padding: 10px;
+    width: 80%;
 }
 
 .chats {
     min-height: 50px;
+    height: 300px;
+    width: 80%;
+    overflow-y: auto;
     border: 1px black solid;
 }
 

@@ -1,21 +1,22 @@
 var html = require("unpack-html")
-    , ever = require("ever")
     , EventEmitter = require("events").EventEmitter
-    , extend = require("xtend")
 
     , template = require("./html/controls")
 
 module.exports = Controls
 
+/* very simple controls widget that has a clear button on it
+
+*/
 function Controls() {
     var elements = html(template)
         , controls = new EventEmitter()
 
-    ever(elements.clear).on("click", function () {
+    elements.clear.addEventListener("click", function () {
         controls.emit("clear")
     })
 
-    return extend(controls, {
-        view: elements.root
-    })
+    controls.view = elements.root
+
+    return controls
 }

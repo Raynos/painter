@@ -1,10 +1,6 @@
 var html = require("unpack-html")
-    , ever = require("ever")
-    , extend = require("xtend")
-    , ReadWriteStream = require("read-write-stream")
-    , populate = require("populate")
-    , textContent = require("populate/textContent")
-    , append = require("insert/append")
+    , EventEmitter = require("events").EventEmitter
+    , uuid = require("node-uuid")
 
     , Submit = require("./lib/submit")
     , chatTemplate = require("./html/chat")
@@ -12,20 +8,28 @@ var html = require("unpack-html")
 
 module.exports = Chat
 
+/* Chat widget
+
+    - keeps a history of all chats so that it can be broadcast
+        to new people
+    - Hooks into the submit event for it's controls and creates
+        new message when the user sends one.
+    - New incoming messages get inserted in the correct
+        place based on timestamps. This is nice if multiple user
+        come online again and sync up their chat history
+
+*/
 function Chat() {
     var elements = html(chatTemplate)
-        , queue = ReadWriteStream(write)
-        , stream = queue.stream
+        , chat = new EventEmitter()
         , list = elements.list
         , submit = Submit({
             message: elements.message
             , send: elements.send
             , name: elements.name
         })
-        , schema = {
-            name: textContent
-            , text: textContent
-        }
+        , elemMap = {}
+        , history = {}
 
     submit.on("submit", function (data) {
         if (data.name) {
@@ -35,32 +39,65 @@ function Chat() {
 
         if (data.message) {
             var data = {
-                type: "message"
-                , text: data.message
+                text: data.message
                 , name: data.name
+                , id: uuid()
+                , ts: Date.now()
             }
 
-            queue.push(data)
-            renderMessage(data)
+            chat.emit("message", data)
+            addMessage(data)
+            elements.message.value = ""
         }
     })
 
     elements.message.disabled = true
     elements.send.disabled = true
 
-    return extend(stream, {
-        view: elements.root
-    })
+    chat.view = elements.root
+    chat.addMessage = addMessage
+    chat.history = history
 
-    function write(data) {
-        if (data.type === "message") {
-            renderMessage(data)
+    return chat
+
+    function addMessage(data) {
+        var id = data.id
+            , ts = data.ts
+
+        if (history[id]) {
+            return
         }
+
+        var elem = renderMessage(data)
+        elemMap[data.id] = elem
+
+        // This is the message with the ts before data.ts
+        var last = Object.keys(history)
+            .map(function (key) {
+                return history[key]
+            })
+            .filter(function (message) {
+                return message.ts < ts
+            })
+            .sort(function (a, b) {
+                return a.ts < b.ts ? 1 : -1
+            })[0]
+
+        // dom hackery to insert the new message after last
+        var reference = last ? elemMap[last.id] : null
+
+        list.insertBefore(elem, reference ?
+            reference.nextSibling : null)
+
+        list.scrollTop = list.scrollHeight
+
+        history[id] = data
     }
 
     function renderMessage(data) {
         var message = html(messageTemplate)
-        populate(data, message, schema)
-        append(list, message.root)
+        message.text.textContent = data.text
+        message.name.textContent = data.name
+        return message.root
     }
 }
