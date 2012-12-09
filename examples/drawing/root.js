@@ -22,6 +22,7 @@ function Root(db) {
             start: "path:"
             , end: "path;"
         })
+        , progress = null;
 
     controls.on("clear", function () {
         deleteRange(db, {
@@ -31,7 +32,15 @@ function Root(db) {
     })
 
     canvas.on("path", function (path) {
-        db.put("path:" + uuid(), path)
+        progress = null
+    })
+
+    canvas.on("progress", function (path) {
+        if (progress === null) {
+            progress = "path:" + uuid()
+        }
+        
+        db.put(progress, path)
     })
 
     stream.pipe(WriteStream(function (change) {

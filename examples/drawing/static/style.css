@@ -8,6 +8,7 @@ html, body {
 canvas {
     margin: 20px;
     border: 1px black solid;
+    cursor: pointer;
 }
 
 .chat {

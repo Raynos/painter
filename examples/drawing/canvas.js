@@ -19,6 +19,10 @@ function Canvas() {
     canvas.width = width
     canvas.height = height
 
+    canvas.onselectstart = function () {
+        return false
+    }
+
     requestAnimationFrame(render)
 
     return extend(events, {
