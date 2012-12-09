@@ -10,9 +10,23 @@ canvas {
     border: 1px black solid;
 }
 
+.chat {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.chats {
+    min-height: 50px;
+    border: 1px black solid;
+}
+
 .right {
     float: right;
-    width: 15%;
+    width: 20%;
     margin-right: 20px;
     margin-top: 20px;
+}
+
+.message {
+    list-style: none;
 }

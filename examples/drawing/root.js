@@ -9,6 +9,7 @@ var livefeed = require("level-livefeed")
     , template = require("./html/root")
     , Canvas = require("./canvas")
     , Controls = require("./controls")
+    , Chat = require("./chat")
 
 module.exports = Root
 
@@ -16,6 +17,7 @@ function Root(db) {
     var elements = html(template)
         , canvas = Canvas()
         , controls = Controls()
+        , chat = Chat()
         , stream = livefeed(db, {
             start: "path:"
             , end: "path;"
@@ -42,8 +44,10 @@ function Root(db) {
 
     replace(elements.canvas, canvas.view)
     append(elements.right, controls.view)
+    append(elements.right, chat.view)
 
     return {
         view: elements.root
+        , chat: chat
     }
 }

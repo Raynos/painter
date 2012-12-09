@@ -18,15 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "tap": "~0.3.1",
-    "browserify-server": "~2.1.10",
-    "reconnect": "~0.3.1",
-    "topology": "~0.1.1",
-    "read-stream": "~0.5.2",
-    "write-stream": "~0.4.3",
-    "signal-channel": "~0.5.1",
-    "node-uuid": "~1.4.0",
-    "mux-demux": "~3.4.0"
+    "browserify-server": "~2.1.10"
   },
   "licenses": [
     {

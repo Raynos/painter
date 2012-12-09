@@ -13,7 +13,7 @@ function Canvas() {
         , context = canvas.getContext("2d")
         , events = drag(canvas)
         , memory = {}
-        , width = window.innerWidth * 0.8
+        , width = window.innerWidth * 0.75
         , height = window.innerHeight * 0.8
 
     canvas.width = width

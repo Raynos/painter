@@ -1,8 +1,9 @@
 var levelidb = require("levelidb")
-    , livefeed = require("level-livefeed")
     , fullyConnected = require("topology/fully")
     , SignalChannel = require("signal-channel")
     , append = require("insert/append")
+    , MuxDemux = require("mux-demux")
+    , StreamRouter = require("stream-router")
 
     , Root = require("./root")
     , replicate = require("./lib/replicate")
@@ -12,9 +13,21 @@ var levelidb = require("levelidb")
     , db = levelidb("drawing-db", {
         encoding: "json"
     })
+    , root = Root(db)
 
-append(document.body, Root(db).view)
+append(document.body, root.view)
 
 fullyConnected(channel, function (stream) {
+    var router = StreamRouter()
+        , mdm = MuxDemux(router)
+
+    router.addRoute("/chat", function (stream) {
+        stream.pipe(root.chat, {
+            end: false
+        })
+    })
+
+    root.chat.pipe(mdm.createStream("/chat"))
+
     console.log("connected to", stream.peerId)
 })
