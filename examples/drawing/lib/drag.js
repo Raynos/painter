@@ -35,6 +35,8 @@ function drag(elem) {
         path.push([start, point])
 
         start = point
+
+        result.emit("progress", path)
     })
 
     return result
