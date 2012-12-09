@@ -1,5 +1,4 @@
-var extend = require("xtend")
-    , requestAnimationFrame = window.requestAnimationFrame ||
+var requestAnimationFrame = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
@@ -29,11 +28,11 @@ function Canvas() {
 
     requestAnimationFrame(render)
 
-    return extend(events, {
-        view: canvas
-        , addPath: addPath
-        , removePath: removePath
-    })
+    events.view = canvas
+    events.addPath = addPath
+    events.removePath = removePath
+
+    return events
 
     function render() {
         context.clearRect(0, 0, width, height)
