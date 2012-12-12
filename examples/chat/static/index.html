@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Drawing demo</title>
+        <meta charset="utf-8">
+        <link href="style.css" rel="stylesheet"></link>
+    </head>
+    <body>
+        <div class="hidden">
+            <fieldset id="chatTemplate" class="chat">
+                <legend> Chats </legend>
+                <div class="user-controls">
+                    <label>
+                        Enter your name:
+                        <input class="template-name"></input>
+                    </label>
+                </div>
+                <ul class="template-list chats"></ul>
+                <div class="chat-controls">
+                    <label class="message-label">
+                        Message:
+                        <input class="template-message"></input>
+                    </label>
+                    <button class="template-send">Send</button>
+                </div>
+            </fieldset>
+            <li id="messageTemplate" class="message">
+                <span class="template-name"></span>
+                <span> : </span>
+                <span class="template-text"></span>
+            </li>
+        </div>
+        <script src="bundle.js"></script>
+        <script src="http://localhost:9090"></script>
+    </body>
+</html>

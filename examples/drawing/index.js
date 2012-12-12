@@ -1,7 +1,6 @@
 var levelidb = require("levelidb")
     , fullyConnected = require("topology/fully")
     , SignalChannel = require("signal-channel")
-    , MuxDemux = require("mux-demux")
     , livefeed = require("level-livefeed")
     , uuid = require("node-uuid")
     , html = require("unpack-html")
@@ -31,8 +30,7 @@ function Root() {
         , canvas = Canvas()
         , controls = Controls()
         , chat = Chat()
-        , channel = SignalChannel("drawing game"
-            , "//localhost:8080/sock")
+        , channel = SignalChannel("drawing game")
         , db = levelidb("drawing-db", {
             encoding: "json"
         })
@@ -70,33 +68,39 @@ function Root() {
 
     fullyConnected(channel, {
         id: id
-    }, function (stream) {
-        var multiplexer = MuxDemux(function (stream) {
-            if (stream.meta === "chat") {
-                stream.on("data", handleChatMessages)
-            }
-        })
+    }, function (conn, opened) {
+        if (!opened) {
+            return conn.on("connection", function (stream) {
+                if (stream.meta === "chat") {
+                    handleChat(stream)
+                }
+            })
+        }
 
-        multiplexer.pipe(stream).pipe(multiplexer)
+        handleChat(conn.createStream("chat"))
 
-        var chatStream = multiplexer.createStream("chat")
+        console.log("connected to", conn.peerId)
+    })
+
+    return elements.root
+
+    function handleChat(stream) {
+        stream.on("data", handleChatMessages)
 
         chat.on("message", function (message) {
             message.type = "message"
-            chatStream.write(message)
+            stream.write(message)
         })
 
-        chatStream.write({
+        stream.write({
             type: "history?"
         })
-
-        console.log("connected to", stream.peerId)
 
         function handleChatMessages(data) {
             if (data.type === "message") {
                 chat.addMessage(data)
             } else if (data.type === "history?") {
-                chatStream.write({
+                stream.write({
                     type: "history!"
                     , history: chat.history
                 })
@@ -107,7 +111,5 @@ function Root() {
                 })
             }
         }
-    })
-
-    return elements.root
+    }
 }
