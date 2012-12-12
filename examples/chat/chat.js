@@ -3,6 +3,13 @@ var EventEmitter = require("events").EventEmitter
     , chatTemplate = Template("chatTemplate")
     , messageTemplate = Template("messageTemplate")
 
+/*  MOTHER OF GOD BEWARE THE BEAST THAT IS THE DOM
+
+    this code can be way cleaner but that has the penalty of
+        introducing a bunch of libraries / frameworks /
+        abstractions / complexity.
+*/
+
 module.exports = Chat
 
 /* Chat widget

@@ -8,6 +8,12 @@ var chat = Chat()
 
 document.body.appendChild(chat.view)
 
+/* Our little app here
+
+  - Opens up a channel and sets up a fully connected p2p
+    topology. Once connections open it starts sending
+    chat messages, including a history request mechanism
+*/
 fullyConnected(channel, function (pc, opener) {
     console.log("connected to", pc.peerId)
 
