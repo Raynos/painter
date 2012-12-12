@@ -5,9 +5,8 @@ html, body {
     width: 100%;
 }
 
-canvas {
-    margin: 20px;
-    border: 1px black solid;
+.hidden {
+    display: none;
 }
 
 .chat {

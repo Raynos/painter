@@ -1,36 +1,26 @@
 {
-  "name": "{{example}}",
+  "name": "paint-demo",
   "version": "0.1.0",
-  "description": "{{example}}",
-  "author": "{{author}}",
+  "description": "A multi user painting experience",
+  "author": "Raynos <raynos2@gmail>",
   "main": "index",
-  "dependencies": {},
-  "devDependencies": {
-    "browserify-server": "~2.1.4",
-    "wr": "~1.2.1",
-    "live-reload": "~0.2.0",
-    "scuttlebutt": "~5.0.1",
-    "crdt": "~3.2.1",
-    "by": "~0.1.0",
-    "class-list": "0.0.1",
-    "unpack-html": "~0.1.3",
-    "populate": "~0.1.2",
-    "insert": "~0.1.1",
-    "ever": "0.0.0",
+  "dependencies": {
     "levelidb": "~0.2.3",
-    "level-scuttlebutt": "0.0.0",
-    "level-map": "0.0.3",
-    "level-reduce": "0.0.2",
-    "hash-join": "0.0.0",
-    "level-view-stream": "0.0.3",
-    "range-bucket": "0.0.6",
-    "map-reduce": "~2.0.1",
-    "level-live-stream": "~0.1.0",
     "level-livefeed": "~0.1.3",
-    "xtend": "~1.0.3",
-    "end-stream": "~0.1.0"
+    "topology": "~0.2.0",
+    "signal-channel": "~0.7.0",
+    "node-uuid": "~1.4.0",
+    "unpack-html": "~0.1.3",
+    "end-stream": "~0.1.0",
+    "ever": "0.0.0"
+  },
+  "devDependencies": {
+    "browserify-server": "~2.1.10",
+    "live-reload": "~0.2.0",
+    "wr": "~1.2.1"
   },
   "scripts": {
-    "build": "make all"
+    "build": "browserify-server --bundle=index.js -o ./static/bundle.js",
+    "server": "browserify-server --server=./static --port=8081"
   }
 }

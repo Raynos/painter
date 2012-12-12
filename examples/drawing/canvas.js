@@ -1,5 +1,4 @@
-var extend = require("xtend")
-    , requestAnimationFrame = window.requestAnimationFrame ||
+var requestAnimationFrame = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
@@ -8,12 +7,20 @@ var extend = require("xtend")
 
 module.exports = Canvas
 
+/* Canvas widget
+
+    - has a render loop based on requestAnimationFrame that
+        resets canvas and renders all paths it currently thinks
+        exist.
+    - has methods to add and remove paths to it's memory
+
+*/
 function Canvas() {
     var canvas = document.createElement("canvas")
         , context = canvas.getContext("2d")
         , events = drag(canvas)
         , memory = {}
-        , width = window.innerWidth * 0.8
+        , width = window.innerWidth * 0.75
         , height = window.innerHeight * 0.8
 
     canvas.width = width
@@ -21,11 +28,11 @@ function Canvas() {
 
     requestAnimationFrame(render)
 
-    return extend(events, {
-        view: canvas
-        , addPath: addPath
-        , removePath: removePath
-    })
+    events.view = canvas
+    events.addPath = addPath
+    events.removePath = removePath
+
+    return events
 
     function render() {
         context.clearRect(0, 0, width, height)
