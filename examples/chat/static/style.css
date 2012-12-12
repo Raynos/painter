@@ -33,3 +33,16 @@ html, body {
 .message {
     list-style: none;
 }
+
+footer .fork {
+    -webkit-animation: button-flourish 2s ease 1.02s 1;
+    -ms-animation: button-flourish 2s ease 1.02s 1;
+    -moz-animation: button-flourish 2s ease 1.02s 1;
+    -o-animation: button-flourish 2s ease 1.02s 1;
+    animation: button-flourish 2s ease 1.02s 1;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
