@@ -5,7 +5,7 @@
   "author": "{{author}}",
   "main": "index",
   "dependencies": {
-    "levelidb": "~0.2.4",
+    "levelidb": "~0.2.5",
     "topology": "~0.2.0",
     "signal-channel": "~0.7.0",
     "level-livefeed": "~0.1.3",
