@@ -11,7 +11,7 @@ var levelidb = require("levelidb")
 var channel = SignalChannel("/demo/paint/3")
 var canvas = Canvas()
 
-var db = levelidb("paint-db3", {
+var db = levelidb("paint-db4", {
         encoding: "json"
     })
     , dbStream = livefeed(db, {
