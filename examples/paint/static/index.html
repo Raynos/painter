@@ -16,9 +16,30 @@
                 border: 1px black solid;
                 cursor: pointer;
             }
+
+            footer .fork {
+                -webkit-animation: button-flourish 2s ease 1.02s 1;
+                -ms-animation: button-flourish 2s ease 1.02s 1;
+                -moz-animation: button-flourish 2s ease 1.02s 1;
+                -o-animation: button-flourish 2s ease 1.02s 1;
+                animation: button-flourish 2s ease 1.02s 1;
+
+                position: absolute;
+                top: 0;
+                right: 0;
+                border: 0;
+            }
         </style>
     </head>
     <body>
         <script src="bundle.js"></script>
+        <footer>
+            <a href="https://github.com/Raynos/painter/examples/paint">
+                <img
+                    class="fork"
+                    src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"
+                    alt="Fork me on GitHub"></img>
+            </a>
+        </footer>
     </body>
 </html>
