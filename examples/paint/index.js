@@ -8,7 +8,7 @@ var levelidb = require("levelidb")
     , replicate = require("./lib/replicate")
     , Canvas = require("./canvas")
 
-var channel = SignalChannel("/demo/paint")
+var channel = SignalChannel("/demo/paint/2")
 var canvas = Canvas()
 
 var db = levelidb("paint-db", {
@@ -25,7 +25,7 @@ window.clear = function () {
 
 dbStream.on("data", function (change) {
     if (change.type === "put") {
-        console.log("adding key", change.key)
+        debug("adding key", change.key)
         canvas.addPath(change.key, change.value.path)
     } else if (change.type === "del") {
         canvas.removePath(change.key)
@@ -35,7 +35,7 @@ dbStream.on("data", function (change) {
 canvas.on("path", function (path) {
     var key = "path:" + uuid()
 
-    console.log("putting key", key)
+    debug("putting key", key)
 
     db.put(key, {
         path: path
@@ -65,4 +65,10 @@ function handlePaint(stream) {
     })
 
     stream.pipe(replStream).pipe(stream)
+}
+
+function debug() {
+    if (window.DEBUG) {
+        console.log.apply(console, arguments)
+    }
 }

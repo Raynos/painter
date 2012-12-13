@@ -14,9 +14,8 @@ function replicate(db, options) {
         var current = model.get(chunk.key)
 
         if (chunk.type === "put" && !current) {
-            dead[chunk.key] = false
             model.set(chunk.key, chunk.value)
-        } else if (chunk.type === "del" && current) {
+        } else if (chunk.type === "del") {
             model.set(chunk.key, null)
         }
     })
@@ -29,10 +28,9 @@ function replicate(db, options) {
         var key = tuple[0]
             , value = tuple[1]
 
-        if (value === null && !dead[key]) {
-            dead[key] = true
+        if (value === null) {
             db.del(key, error)
-        } else {
+        } else if (value !== null) {
             db.put(key, value, error)
         }
     })

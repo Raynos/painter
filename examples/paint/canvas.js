@@ -54,6 +54,9 @@ function Canvas() {
         Object.keys(memory).forEach(function (key) {
             var path = memory[key]
 
+            if (path === null) {
+                console.log("memory", key, memory, path)
+            }
             path.forEach(strokePath)
         })
 
