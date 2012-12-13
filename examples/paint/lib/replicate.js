@@ -11,8 +11,6 @@ function replicate(db, options) {
         , dead = {}
 
     forEach(feedStream, function (chunk) {
-        console.log("from feedStream", chunk.value)
-
         var current = model.get(chunk.key)
 
         if (chunk.type === "put" && !current) {
@@ -30,8 +28,6 @@ function replicate(db, options) {
 
         var key = tuple[0]
             , value = tuple[1]
-
-        console.log("update", tuple, source)
 
         if (value === null && !dead[key]) {
             dead[key] = true

@@ -18,18 +18,33 @@ function Canvas() {
     var canvas = document.createElement("canvas")
         , context = canvas.getContext("2d")
         , events = drag(canvas)
-        , memory = {}
+        , memory = {
+            progress: []
+        }
         , width = window.innerWidth * 0.75
         , height = window.innerHeight * 0.8
 
     canvas.width = width
     canvas.height = height
 
+    // why?
+    canvas.onselectstart = function () {
+        return false
+    }
+
     requestAnimationFrame(render)
 
     events.view = canvas
     events.addPath = addPath
     events.removePath = removePath
+
+    events.on("progress", function (path) {
+        memory.progress = path
+    })
+
+    events.on("path", function () {
+        memory.progress = []
+    })
 
     return events
 
@@ -98,6 +113,8 @@ function drag(elem) {
         path.push([start, point])
 
         start = point
+
+        result.emit("progress", path)
     })
 
     return result

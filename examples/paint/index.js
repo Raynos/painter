@@ -24,8 +24,8 @@ window.clear = function () {
 }
 
 dbStream.on("data", function (change) {
-    console.log("incoming change", change.value)
     if (change.type === "put") {
+        console.log("adding key", change.key)
         canvas.addPath(change.key, change.value.path)
     } else if (change.type === "del") {
         canvas.removePath(change.key)
@@ -33,7 +33,11 @@ dbStream.on("data", function (change) {
 })
 
 canvas.on("path", function (path) {
-    db.put("path:" + uuid(), {
+    var key = "path:" + uuid()
+
+    console.log("putting key", key)
+
+    db.put(key, {
         path: path
     })
 })
