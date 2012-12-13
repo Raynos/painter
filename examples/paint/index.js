@@ -8,10 +8,10 @@ var levelidb = require("levelidb")
     , replicate = require("./lib/replicate")
     , Canvas = require("./canvas")
 
-var channel = SignalChannel("/demo/paint/2")
+var channel = SignalChannel("/demo/paint/3")
 var canvas = Canvas()
 
-var db = levelidb("paint-db2", {
+var db = levelidb("paint-db3", {
         encoding: "json"
     })
     , dbStream = livefeed(db, {
